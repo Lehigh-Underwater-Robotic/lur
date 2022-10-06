@@ -1,0 +1,37 @@
+launch:
+# args that can be set from the command line or a default will be used
+# not used
+#- arg:
+#    name: "background_r"
+#    default: "0"
+#- arg:
+#    name: "background_g"
+#    default: "255"
+#- arg:
+#    name: "background_b"
+#    default: "0"
+#- arg:
+#    name: "chatter_ns"
+#    default: "my/chatter/ns"
+
+- node:
+    pkg: "brain"
+    exec: "brain_node"
+    param:
+    -
+      name: "timeout"
+      value: 900
+
+- node:
+    pkg: "camera"
+    exec: "camera_node"
+    param:
+    -
+        name: "front_camera"
+        value: 0
+    -
+        name: "bottom_camera"
+        value: 1
+    -
+        name: "timeout"
+        value: 900

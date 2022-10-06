@@ -1,0 +1,24 @@
+launch:
+
+- node:
+    pkg: "mavros"
+    exec: "mavros_node"
+    param:
+    -
+        name: "fcu_url"
+        value: "/dev/ttyACM1:115200"
+    -
+        name: "gcs_url"
+        value: "tcp-l://:11520"
+    -
+        name: "tgt_system"
+        value: 1
+    -
+        name: "tgt_component"
+        value : 1
+    -
+        name: "system_id"
+        value: 1
+    -
+        name: "component_id"
+        value: 240
