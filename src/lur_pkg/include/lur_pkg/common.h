@@ -1,0 +1,68 @@
+#ifndef COMMON_H
+#define COMMON_H
+
+#pragma once
+
+#include <chrono>
+#include <string>
+
+// ROS2 headers
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/header.hpp"
+#include "std_msgs/msg/string.hpp"
+#include "sensor_msgs/msg/battery_state.hpp"
+#include "sensor_msgs/msg/imu.hpp"
+#include "sensor_msgs/msg/magnetic_field.hpp"
+#include "sensor_msgs/msg/temperature.hpp"
+#include "mavros_msgs/msg/state.hpp"
+#include "mavros_msgs/msg/manual_control.hpp"
+#include "mavros_msgs/srv/set_mode.hpp"
+#include "lur_pkg/msg/cam.hpp"
+
+// lur headers
+#include "ts_queue.h"
+
+// lur namespace
+// contains constants and type definitions
+namespace lur {
+
+  inline constexpr double pi { 3.14159 };
+  // ros2 message types
+  typedef std_msgs::msg::Header            RHeader;
+  typedef std_msgs::msg::String            RString;
+  typedef mavros_msgs::srv::SetMode        RSetMode;
+  typedef sensor_msgs::msg::BatteryState   RBatteryState;
+  typedef mavros_msgs::msg::State          RState;
+  typedef mavros_msgs::msg::ManualControl  RManualControl; 
+  typedef sensor_msgs::msg::Imu            RImu; 
+  typedef sensor_msgs::msg::MagneticField  RMag; 
+  typedef sensor_msgs::msg::Temperature    RTemperature; 
+
+  // Custom ros2 messages
+  // not a great name
+  typedef lur_pkg::msg::Cam    Cam; 
+
+  // @@ use custom messages and services?
+  inline constexpr RManualControl create_manual_msg(int x, int y, int z, int r, int buttons) {
+    RManualControl msg;
+    msg.x = x; msg.y = y; msg.z = z;
+    msg.r = r; msg.buttons = buttons;
+    //set header
+    RHeader head;
+    head.frame_id = "VECTORED_6DOF";
+    msg.header = head;
+    return msg;
+  }
+
+  typedef std::chrono::time_point<std::chrono::system_clock> Timestamp;
+  inline Timestamp now(){return std::chrono::system_clock::now();}
+
+  // generic event type
+  struct Event {
+    uint8_t id;
+    std::string message;
+    Timestamp timestamp;
+  };
+}
+
+#endif
